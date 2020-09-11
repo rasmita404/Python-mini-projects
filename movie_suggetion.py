@@ -10,15 +10,14 @@ def get_movies_from_tastedive(str):
     d["limit"] = 5
     resp = requests_with_caching.get(base_url, params = d)
     req = resp.json()
-    #print(req)
-    print("-----------1---")
+    
     return req
 
 def extract_movie_titles(dicts):
     movie_lst = []
     for ele in dicts['Similar']['Results']:
         movie_lst.append(ele['Name'])
-    print("-----------2---")
+    
     return movie_lst
 
 def get_related_titles(lst):
@@ -27,7 +26,7 @@ def get_related_titles(lst):
         for name in extract_movie_titles(get_movies_from_tastedive(movie)):
             if name not in rel_tit_lst :
                 rel_tit_lst.append(name)
-    print("-----------3---")
+    
     return rel_tit_lst
 
 def get_movie_data(title):
@@ -37,8 +36,7 @@ def get_movie_data(title):
     d['r'] = 'json'
     resp2 = requests_with_caching.get(base_url, params = d )
     req2 = resp2.json()
-    #print(req2['Ratings'])
-    print("-----------4---")
+    
     return(req2)
 
 def get_movie_rating(OMDB_data):
