@@ -10,14 +10,12 @@ def get_movies_from_tastedive(str):
     d["limit"] = 5
     resp = requests_with_caching.get(base_url, params = d)
     req = resp.json()
-    
     return req
 
 def extract_movie_titles(dicts):
     movie_lst = []
     for ele in dicts['Similar']['Results']:
         movie_lst.append(ele['Name'])
-    
     return movie_lst
 
 def get_related_titles(lst):
@@ -26,7 +24,6 @@ def get_related_titles(lst):
         for name in extract_movie_titles(get_movies_from_tastedive(movie)):
             if name not in rel_tit_lst :
                 rel_tit_lst.append(name)
-    
     return rel_tit_lst
 
 def get_movie_data(title):
@@ -36,22 +33,18 @@ def get_movie_data(title):
     d['r'] = 'json'
     resp2 = requests_with_caching.get(base_url, params = d )
     req2 = resp2.json()
-    
     return(req2)
 
 def get_movie_rating(OMDB_data):
 
     for rating in OMDB_data['Ratings']:
         if rating['Source'] == 'Rotten Tomatoes' :
-            #print(rating['Value'])
-            print("-----------5---")
             val = rating['Value'].replace("%", "")
             return int(val)
     return 0
 
 def get_sorted_recommendations(tit_lst):
     print(tit_lst)
-    print("-----------6---")
     sorted_lst = sorted(get_related_titles(tit_lst), reverse = True, key = lambda title: ( get_movie_rating(get_movie_data(title)), title))
     print(sorted_lst)
     return sorted_lst
