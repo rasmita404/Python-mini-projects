@@ -1,1 +1,1 @@
-# fuzzy-octo-happiness
+# Python mini-projects
